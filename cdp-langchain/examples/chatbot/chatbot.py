@@ -140,4 +140,17 @@ def main():
 
 if __name__ == "__main__":
     print("Starting Agent...")
+
+    # Example of how to access a request via Ether from a faucet and store it in the wallet
+    agent_executor, config = initialize_agent()
+    user_input = "Request test tokens from the faucet"
+    for chunk in agent_executor.stream(
+        {"messages": [HumanMessage(content=user_input)]}, config
+    ):
+        if "agent" in chunk:
+            print(chunk["agent"]["messages"][0].content)
+        elif "tools" in chunk:
+            print(chunk["tools"]["messages"][0].content)
+        print("-------------------")
+
     main()
